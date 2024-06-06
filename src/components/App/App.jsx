@@ -78,6 +78,19 @@ const toggleItem = (id) => {
         console.log(error);
     })
 }
+
+const resetItem = () => {
+    console.log('reset action');
+
+    axios.put(`/api/shopping_list/reset`)
+    .then((response) => {
+        console.log('reset action worked:', response);
+        fetchList();
+    })
+    .catch (function (error) {
+        console.log(error);
+    })
+}
 //  NEED TO ASSIGN VALUE BOOLEAN TO CONNECT DATABAASE AND URL
 
 
@@ -96,8 +109,23 @@ const toggleItem = (id) => {
                 <input id="unit" onChange={(event) => setUnit(event.target.value)} value={itemUnit} />
                 <button type="submit">Add new item</button>
             </form>
+            <button onClick={() => resetItem()}>Reset</button>
             <h2>Shopping Cart</h2>
-            {listArray.map((item) => { return (<li key={item.name}>{item.name} {item.unit} {item.quantity} <button onClick={() => deleteItem(item.id)}>Remove</button> <button onClick={() => toggleItem(item.id)}>Buy</button> </li>); })}
+            {listArray.map((item) => {
+                        return (
+                            <li key={item.name}>{item.name} {item.unit} {item.quantity} {item.purchased ? (
+                                // item.purchased => If it's true, "Purchased" text will generate on screen
+                                <span> - Purchased</span>
+                            ) : (
+                                // item.purchased => If it's false, "Remove" & "Buy" button will generate on screen
+                                <>
+                                    <button onClick={() => deleteItem(item.id)}>Remove</button>
+                                    <button onClick={() => toggleItem(item.id)}>Buy</button>
+                                </>
+                            )}
+                            </li>
+                        );
+                    })}
             </main>
         </div>
     );
