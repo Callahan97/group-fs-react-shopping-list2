@@ -10,7 +10,6 @@ function App() {
 let [ itemName, setItemName] = useState('');
 let [ itemQuantity, setQuantity] = useState('');
 let [ itemUnit, setUnit] = useState('');
-let [ itemPurchase, setPurchase] = useState('');
 let [ listArray, setListArray] = useState([]);
 
 const fetchList = () =>{
@@ -89,7 +88,20 @@ const resetItem = () => {
     })
     .catch (function (error) {
         console.log(error);
+    });
+}
+
+const clearItem = () => {
+    console.log('clear action');
+
+    axios.delete(`/api/shopping_list/clear/all`)
+    .then((response) => {
+        console.log('clear worked:', response);
+        fetchList();
     })
+    .catch (function (error) {
+        console.log(error);
+    });
 }
 //  NEED TO ASSIGN VALUE BOOLEAN TO CONNECT DATABAASE AND URL
 
@@ -110,6 +122,8 @@ const resetItem = () => {
                 <button type="submit">Add new item</button>
             </form>
             <button onClick={() => resetItem()}>Reset</button>
+
+            <button onClick={() => clearItem()}>Clear</button>         
             <h2>Shopping Cart</h2>
             {listArray.map((item) => {
                         return (

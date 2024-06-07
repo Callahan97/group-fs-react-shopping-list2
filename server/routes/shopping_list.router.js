@@ -80,9 +80,19 @@ router.delete('/:id', (req, res) => {
         })
 })
 
-router.put('/clear', (req, res) => {
-
-})
+router.delete('/clear/all', (req, res) => {
+    
+    const sqlText = `DELETE FROM "shopping_list";`;
+    pool.query(sqlText)
+        .then((result) => {
+            console.log(`Got stuff back from the database`, result);
+            res.sendStatus(201);
+        })
+        .catch((error) => {
+            console.log(`Error making database query ${sqlText}`, error);
+            res.sendStatus(500); // Good server always responds
+        });
+});
 
 
 module.exports = router;
