@@ -39,7 +39,8 @@ const addItem = (event) => {
         data: {
             name: itemName,
             quantity: itemQuantity,
-            unit: itemUnit
+            unit: itemUnit,
+            purchased: false
         }
     })
         .then((response) => {
@@ -125,7 +126,22 @@ const clearItem = () => {
 
             <button onClick={() => clearItem()}>Clear</button>         
             <h2>Shopping Cart</h2>
-            {listArray.map((item) => {
+            {listArray.filter(item => item.purchased=== false).map((item) => {
+                        return (
+                            <li key={item.name}>{item.name} {item.unit} {item.quantity} {item.purchased ? (
+                                // item.purchased => If it's true, "Purchased" text will generate on screen
+                                <span> - Purchased</span>
+                            ) : (
+                                // item.purchased => If it's false, "Remove" & "Buy" button will generate on screen
+                                <>
+                                    <button onClick={() => deleteItem(item.id)}>Remove</button>
+                                    <button onClick={() => toggleItem(item.id)}>Buy</button>
+                                </>
+                            )}
+                            </li>
+                        );
+                    })}
+                    {listArray.filter(item => item.purchased=== true).map((item) => {
                         return (
                             <li key={item.name}>{item.name} {item.unit} {item.quantity} {item.purchased ? (
                                 // item.purchased => If it's true, "Purchased" text will generate on screen
