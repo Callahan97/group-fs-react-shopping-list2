@@ -3,6 +3,9 @@ import axios from 'axios';
 import Header from '../Header/Header.jsx'
 import './App.css';
 import { useEffect, useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 function App() {
@@ -114,17 +117,22 @@ const clearItem = () => {
             <main>
             <h1>Add an Item</h1> 
             <form onSubmit={addItem}>
-            <label htmlFor="item">Item</label>
+            <label htmlFor="item">Item: </label>
                 <input id="item" onChange={(event) => setItemName(event.target.value)} value={itemName} />
-                <label htmlFor="quantity">Quantity</label>
+                <br/>
+                <label htmlFor="quantity">Quantity: </label>
                 <input id="quantity" onChange={(event) => setQuantity(event.target.value)} value={itemQuantity} />
-                <label htmlFor="unit">Unit</label>
+                <br/>
+                <label htmlFor="unit">Unit: </label>
                 <input id="unit" onChange={(event) => setUnit(event.target.value)} value={itemUnit} />
+                <br/>
                 <button type="submit">Add new item</button>
             </form>
             <button onClick={() => resetItem()}>Reset</button>
-
-            <button onClick={() => clearItem()}>Clear</button>         
+            <IconButton onClick={() => clearItem()} aria-label="delete">
+            <DeleteIcon />
+            </IconButton>
+                     
             <h2>Shopping Cart</h2>
             {listArray.filter(item => item.purchased=== false).map((item) => {
                         return (
@@ -135,7 +143,9 @@ const clearItem = () => {
                                 // item.purchased => If it's false, "Remove" & "Buy" button will generate on screen
                                 <>
                                     <button onClick={() => deleteItem(item.id)}>Remove</button>
-                                    <button onClick={() => toggleItem(item.id)}>Buy</button>
+                                    <IconButton onClick={() => toggleItem(item.id)} color="primary" aria-label="add to shopping cart">
+                                    <AddShoppingCartIcon />
+                                    </IconButton>
                                 </>
                             )}
                             </li>
@@ -150,7 +160,10 @@ const clearItem = () => {
                                 // item.purchased => If it's false, "Remove" & "Buy" button will generate on screen
                                 <>
                                     <button onClick={() => deleteItem(item.id)}>Remove</button>
-                                    <button onClick={() => toggleItem(item.id)}>Buy</button>
+                                    
+                                    <IconButton onClick={() => toggleItem(item.id)} color="primary" aria-label="add to shopping cart">
+                                    <AddShoppingCartIcon />
+                                    </IconButton>
                                 </>
                             )}
                             </li>
